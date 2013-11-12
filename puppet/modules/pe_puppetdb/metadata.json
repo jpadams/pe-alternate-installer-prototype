@@ -1,0 +1,50 @@
+{
+  "types": [
+
+  ],
+  "version": "0.0.11",
+  "summary": "PE PuppetDB resource types",
+  "dependencies": [
+    {
+      "version_requirement": ">=1.4.0",
+      "name": "puppetlabs/puppetdb"
+    },
+    {
+      "version_requirement": ">=0.0.1",
+      "name": "puppetlabs/pe_postgresql"
+    },
+    {
+      "version_requirement": ">=3.2.0",
+      "name": "puppetlabs/stdlib"
+    },
+    {
+      "version_requirement": ">=1.0.0",
+      "name": "puppetlabs/inifile"
+    },
+    {
+      "version_requirement": ">=0.0.5",
+      "name": "fiddyspence/sysctl"
+    }
+  ],
+  "license": "Puppet Enterprise Software License Agreement",
+  "source": "git@github.com:puppetlabs/puppetlabs-pe_puppetdb.git",
+  "description": "PE PuppetDB resource types",
+  "checksums": {
+    "README.md": "1432f401f69d2f3cd52de9a587f071af",
+    "templates/hash_to_conf.erb": "3ff0e070e82b25126569fa462b790b34",
+    "Rakefile": "f37e6131fe7de9a49b09d31596f5fbf1",
+    "manifests/params.pp": "cb446dbe132310daa5d49d773db39719",
+    "manifests/master.pp": "4e7bab3c0dec0660c34f9949b5f101ff",
+    "manifests/database.pp": "ffa0797db02353882c8863f1e42c00f6",
+    "lib/puppet/parser/functions/pe_puppetdb_safe_hiera_hash.rb": "dfb8a01a9d09055afb72a4fc8bde746b",
+    "manifests/init.pp": "1054858a57c228b1924339dbaa14ca6f",
+    "lib/facter/puppetdb_server_status.rb": "a42fe84c8859a4ed97a6350e6997f125",
+    "tests/pe-puppetdb-on-separate-node.pp": "51ce9f832be1d607a55f270bcea17a17",
+    "Modulefile": "a39635e33dac5564d9ce62c54706a9d9",
+    "lib/puppet/parser/functions/pe_puppetdb_safe_hiera.rb": "3ad947dcb8d1102fd7a4e2b62da5f031",
+    "tests/pe_puppetdb-on-master-node.pp": "e38a0a9845b632e5235a2ffc108add80"
+  },
+  "name": "puppetlabs-pe_puppetdb",
+  "author": "Puppet Labs",
+  "project_page": "https://github.com/puppetlabs/puppetlabs-pe_puppetdb"
+}

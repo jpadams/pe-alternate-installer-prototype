@@ -1,0 +1,41 @@
+{
+  "source": "https://github.com/reidmv/puppet-module-pe_role",
+  "license": "Apache 2.0",
+  "types": [
+
+  ],
+  "description": "Module to configure Puppet Enterprise",
+  "author": "Reid Vandewiele <reid@puppetlabs.com>",
+  "checksums": {
+    "manifests/puppetconsole.pp": "cec9905a8ff9b6ba9a19972047aba13f",
+    "manifests/database/console.pp": "0826fa44e84c0a6a74d6ec6c40ec84a7",
+    "manifests/agent.pp": "04277e8f041ab753aa1868eed94240a3",
+    "ext/answers/answers.puppetmaster.txt": "2cb3e0e660e3cc95bf152e34818f2770",
+    "manifests/util/puppetdb_whitelist.pp": "a27b2d36d68b25b8e95afdfb1e10b61a",
+    "manifests/puppetagent.pp": "35ce4faaf8578f502c57908916d9fe11",
+    "ext/common.yaml": "613de5e04828fc1c5c9a0889558350d3",
+    "ext/answers/answers.puppetconsole.txt": "3b7509f7918a14185e0e3de5dce6b11b",
+    "manifests/database.pp": "5e92348729e8e309aaa163d901bcec0f",
+    "lib/puppet/parser/functions/hiera_or_undef.rb": "57911cc7859f727a7502bc1730cda254",
+    "manifests/init.pp": "d75e602de87011e9e54c7d4c0272646e",
+    "lib/puppet/parser/functions/pick_or_undef.rb": "f3a5b248c62f20d307bd3d98ebfa1bc9",
+    "ext/answers/answers.agent.txt": "e5a8b738a19e97df41f79a2c0e555d29",
+    "README.md": "e65f945ab5e40ef23547606e8f8258e0",
+    "manifests/mcobroker.pp": "c90bd6fd1ee319574273bb1bb5308365",
+    "ext/hiera.yaml": "d0ed971298b546d110fa5e99e96de65f",
+    "manifests/puppetdb.pp": "19540412b0d22079e94cdbfc1a0ecfd7",
+    "manifests/mcoserver.pp": "10173e5e81f2cae351a7cc1ae60cf5ad",
+    "manifests/puppetmaster.pp": "6a677e699e437bb70e85e6fd105dd4f2",
+    "manifests/puppetca.pp": "e722a691ab9d8818f2ef03c8768abfa5",
+    "manifests/database/puppetdb.pp": "a323412ed68354e11098ceadbb0df2a6",
+    "Modulefile": "640c95f66e144430ac7d70a3629d1b3a",
+    "ext/answers/answers.puppetca.txt": "9433e61c8311466fa30e150c319f4610"
+  },
+  "summary": "Puppet Enterprise role module",
+  "name": "reidmv-pe_role",
+  "project_page": "https://github.com/reidmv/puppet-module-pe_role",
+  "version": "0.0.2",
+  "dependencies": [
+
+  ]
+}

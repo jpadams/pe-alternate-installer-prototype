@@ -1,0 +1,37 @@
+{
+  "name": "reidmv-pe_httpd",
+  "version": "0.0.2",
+  "summary": "Puppet Enterprise puppet module",
+  "author": "Reid Vandewiele \u003creid@puppetlabs.com\u003e",
+  "description": "Module to configure Puppet Enterprise Apache",
+  "dependencies": [
+    {
+      "name": "reidmv/pe_role",
+      "version_requirement": "\u003e\u003d 0.0.1"
+    }
+  ],
+  "types": [],
+  "checksums": {
+    ".travis.yml": "2248798dfca83acdc58ebd307841925e",
+    "Modulefile": "d45eef413494a90fe51b887e3f8af5bd",
+    "files/conf.d/Debian/charset": "e6fbb8adf631932851d6cc522c1e48d7",
+    "files/conf.d/Debian/headers.conf": "3e4560a40eb1e26c2c7cfcadcaf21ec6",
+    "files/conf.d/Debian/localized-error-pages": "dd089588b9f8bdee51a8f047716bedb7",
+    "files/conf.d/Debian/other-vhosts-access-log": "2cad303fc4221d6b0068a8b37597b9fb",
+    "files/conf.d/Debian/passenger-extra.conf": "0e1e1a18895ef561497b20a99a5ebd75",
+    "files/conf.d/Debian/security": "5368b38550a2dfcff71b292f81dc31f3",
+    "files/conf.d/RedHat/10-pe-httpd-passenger.load": "b442ba622480077ef2b70ccc5b5afad5",
+    "files/conf.d/RedHat/11-pe-httpd-passenger.conf": "98d921831f30c0f16f060c7e057fe58f",
+    "files/conf.d/RedHat/README": "e92bea7e9d70a9ecdc61edd7c0a2f59a",
+    "files/conf.d/RedHat/headers.conf": "3e4560a40eb1e26c2c7cfcadcaf21ec6",
+    "files/conf.d/RedHat/passenger-extra.conf": "0e1e1a18895ef561497b20a99a5ebd75",
+    "files/conf.d/RedHat/ssl.conf": "1ff4edeedcd1061e8c7d00ec5c05dfa4",
+    "files/conf.d/RedHat/welcome.conf": "98540d3009ecc6435d8770c24a71258a",
+    "manifests/conf.pp": "48c766f1c91d603191a393109397625f",
+    "manifests/init.pp": "036489c1af771cb69b67a74bdde84c14",
+    "manifests/vhost.pp": "5fc13bc6c3f6fef72d6c9eb2506d052e"
+  },
+  "source": "https://github.com/reidmv/puppet-module-pe_httpd",
+  "project_page": "https://github.com/reidmv/puppet-module-pe_httpd",
+  "license": "Apache 2.0"
+}

@@ -1,0 +1,30 @@
+{
+  "dependencies": [
+    {
+      "version_requirement": ">= 0.0.1",
+      "name": "reidmv/pe_role"
+    }
+  ],
+  "source": "https://github.com/reidmv/puppet-module-pe_puppet",
+  "version": "0.0.2",
+  "summary": "Puppet Enterprise puppet module",
+  "checksums": {
+    "templates/external_node.erb": "e52c6a4b0c0b522515f4ae7fcc5326d1",
+    "templates/puppetmaster.conf.erb": "4350211274e4b2bf7f8fb55f8065e5d0",
+    "manifests/agent.pp": "a1c471a3db812b35f2418df714646e87",
+    "files/config.ru": "df330f02ebfc2c5e168368e0ff7165cc",
+    "Modulefile": "543fd097cf553ff3264bd5847f7c15ee",
+    "manifests/init.pp": "d3c7b1663b1e8f0b42bff2d20cccc1f2",
+    "manifests/master.pp": "03159d4aab4d746c6d10520273e7f8e3",
+    "manifests/ca/autosign.pp": "7874f291f63fc5e0da33e1cb2fe8f3bd",
+    "manifests/ca.pp": "0aea9f1ff8f2c066ccd8397c775c2b0a"
+  },
+  "description": "Module to configure Puppet Enterprise Puppet",
+  "license": "Apache 2.0",
+  "project_page": "https://github.com/reidmv/puppet-module-pe_puppet",
+  "types": [
+
+  ],
+  "name": "reidmv-pe_puppet",
+  "author": "Reid Vandewiele <reid@puppetlabs.com>"
+}

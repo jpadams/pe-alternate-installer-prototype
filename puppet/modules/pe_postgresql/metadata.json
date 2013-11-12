@@ -1,0 +1,28 @@
+{
+  "version": "0.0.6",
+  "license": "Apache",
+  "checksums": {
+    "Modulefile": "9532474ab34258ec14664053b0a43f62",
+    "Rakefile": "f37e6131fe7de9a49b09d31596f5fbf1",
+    "spec/spec_helper.rb": "3ea886dd135e120afa31e0aab12e85b0",
+    "spec/spec.opts": "a600ded995d948e393fbe2320ba8e51c",
+    "tests/init.pp": "9b6add521dabdc52562937c6589b4ad7",
+    "manifests/init.pp": "5829e78a7447995d1221cb9eb5034497",
+    "README.markdown": "96b0442aab583c85acbdb14b2c066bf5"
+  },
+  "author": "Puppet Labs",
+  "summary": "",
+  "dependencies": [
+    {
+      "version_requirement": "3.x",
+      "name": "puppetlabs/postgresql"
+    }
+  ],
+  "name": "puppetlabs-pe_postgresql",
+  "description": "",
+  "project_page": "https://github.com/puppetlabs/pe-postgresql",
+  "source": "",
+  "types": [
+
+  ]
+}

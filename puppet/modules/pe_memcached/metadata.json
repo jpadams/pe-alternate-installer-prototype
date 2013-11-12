@@ -1,0 +1,23 @@
+{
+  "description": "Module to configure Puppet Enterprise memcached",
+  "version": "0.0.2",
+  "summary": "Puppet Enterprise memcached module",
+  "author": "Reid Vandewiele <reid@puppetlabs.com>",
+  "project_page": "https://github.com/reidmv/puppet-module-pe_memcached",
+  "types": [
+
+  ],
+  "checksums": {
+    "manifests/init.pp": "840de1e6c69448caa84c5f8ae7b35936",
+    "Modulefile": "9c1793823eaccdac5c619b653437c25c"
+  },
+  "dependencies": [
+    {
+      "version_requirement": ">= 0.0.2",
+      "name": "reidmv/pe_role"
+    }
+  ],
+  "license": "Apache 2.0",
+  "name": "reidmv-pe_memcached",
+  "source": "https://github.com/reidmv/puppet-module-pe_memcached"
+}

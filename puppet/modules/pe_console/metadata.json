@@ -1,0 +1,36 @@
+{
+  "name": "reidmv-pe_console",
+  "version": "0.0.2",
+  "summary": "Puppet Enterprise console module",
+  "author": "Reid Vandewiele \u003creid@puppetlabs.com\u003e",
+  "description": "Module to configure Puppet Enterprise Console",
+  "dependencies": [
+    {
+      "name": "reidmv/pe_role",
+      "version_requirement": "\u003e\u003d 0.0.1"
+    }
+  ],
+  "types": [],
+  "checksums": {
+    ".travis.yml": "d97c968ba851d0805c624efb87793475",
+    "Modulefile": "bb30f5ef1ce08195d46c555e833d7eac",
+    "README.md": "9b5f7dd7438bba811b8e82be6ad4f6c7",
+    "files/0001-spool-to-db.patch": "95dea6b65aacf4e12f26e7e2e2317ca9",
+    "manifests/cas_client.pp": "4ff63adbda1086a9a8d92d433f3571dd",
+    "manifests/cas_server.pp": "4768b7a8ac5b73362c08fd3a25b7f63b",
+    "manifests/common.pp": "0158c13db107607292befd3b0743c46d",
+    "manifests/console_auth.pp": "93fe47bc59d5ac96aabcfc10531704c1",
+    "manifests/console_auth/config.pp": "6bfbdcb86ab1d59393d6182706db91d7",
+    "manifests/console_auth/database.pp": "d9db517554f40753e89616ed2be0a8ce",
+    "manifests/dashboard.pp": "035cbc248b9fdf414c4e59fbaa651c6f",
+    "manifests/db.pp": "ad0db4482adce150a7cd2f48b135976f",
+    "manifests/db/conditional_db_user_grant.pp": "8b8916c006fef9a67fb4bc943264bb07",
+    "manifests/init.pp": "2e8478e5373748f404d0167cbcfbf679",
+    "templates/database.yml.erb": "3c9125042e36ace73616de09f8e3ea80",
+    "templates/puppetdashboard.conf.erb": "b66c008bc41cb1efe37a7610888b6bb5",
+    "templates/settings.yml.erb": "ab5d5049772449fb5764006f5d9de986"
+  },
+  "source": "https://github.com/reidmv/puppet-module-pe_console",
+  "project_page": "https://github.com/reidmv/puppet-module-pe_console",
+  "license": "Apache 2.0"
+}
