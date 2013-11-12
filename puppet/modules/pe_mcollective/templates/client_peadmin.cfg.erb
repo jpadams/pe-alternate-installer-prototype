@@ -1,0 +1,33 @@
+# This file managed by Puppet <%= @puppetversion %>
+topicprefix     = /topic/
+main_collective = mcollective
+collectives     = mcollective
+libdir          = /opt/puppet/libexec/mcollective/
+logfile         = /var/lib/peadmin/.mcollective.d/client.log
+loglevel        = info
+
+# Security Provider in active use
+securityprovider = <%= @mcollective_security_provider %>
+# AES Security Provider Configuration
+plugin.aespe.client_private = /var/lib/peadmin/.mcollective.d/peadmin-private.pem
+plugin.aespe.client_public  = /var/lib/peadmin/.mcollective.d/peadmin-public.pem
+plugin.aespe.serializer     = yaml
+plugin.aespe.maximum_age    = 60
+# PSK Security Provider Configuration
+plugin.psk = <%= @mcollective_psk_string %>
+
+<% stomp_server = @stomp_server.split(',') %>
+connector = stomp
+plugin.stomp.pool.size = <%= stomp_server.count %>
+<% stomp_server.each_with_index do |server,index| %>
+plugin.stomp.pool.host<%= index + 1 %> = <%= server %>
+plugin.stomp.pool.port<%= index + 1 %> = <%= @stomp_port %>
+plugin.stomp.pool.user<%= index + 1 %> = <%= @stomp_user %>
+plugin.stomp.pool.password<%= index + 1 %> = <%= @stomp_password %>
+plugin.stomp.pool.ssl<%= index + 1 %> = <%= @mcollective_enable_stomp_ssl %>
+<% end %>
+plugin.stomp.base64 = true
+
+# Facts
+factsource = yaml
+plugin.yaml = /etc/puppetlabs/mcollective/facts.yaml

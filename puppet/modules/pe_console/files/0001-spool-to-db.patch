@@ -1,0 +1,40 @@
+From 7dfac44225b21cdb8bb9453272177ebcc92991c7 Mon Sep 17 00:00:00 2001
+From: Daniel Pittman <daniel@puppetlabs.com>
+Date: Wed, 28 Mar 2012 17:55:43 -0700
+Subject: [PATCH] hack to bypass report spooling to files...
+
+Signed-off-by: Daniel Pittman <daniel@puppetlabs.com>
+---
+ app/controllers/reports_controller.rb |   17 ++---------------
+ 1 file changed, 2 insertions(+), 15 deletions(-)
+
+diff --git a/app/controllers/reports_controller.rb b/app/controllers/reports_controller.rb
+index 01d0d9a..4b59caf 100644
+--- a/app/controllers/reports_controller.rb
++++ b/app/controllers/reports_controller.rb
+@@ -29,21 +29,8 @@ class ReportsController < InheritedResources::Base
+ 
+   def upload
+     begin
+-      @@n ||= 0
+-      yaml = params[:report][:report]
+-      file = Rails.root + 'spool' + "report-#{$$}-#{@@n += 1}.yaml"
+-
+-      begin
+-        fd = File.new(file, File::CREAT|File::EXCL|File::RDWR, 0600)
+-        fd.print yaml
+-        fd.close
+-
+-        Report.delay.create_from_yaml_file(file.to_s, :delete => true)
+-        render :text => "Report queued for import as #{file.basename}"
+-      rescue Errno::EEXIST
+-        file = Rails.root + 'spool' + "report-#{$$}-#{@@n += 1}.yaml"
+-        retry
+-      end
++      Report.delay.create_from_yaml(params[:report][:report])
++      render :text => "Report queued for import"
+     rescue => e
+       error_text = "ERROR! ReportsController#upload failed:"
+       Rails.logger.debug error_text
+-- 
+1.7.9.4

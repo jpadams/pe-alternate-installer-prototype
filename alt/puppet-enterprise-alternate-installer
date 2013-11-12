@@ -1,0 +1,370 @@
+#!/bin/bash
+
+#-----------------------------------------------------------------------------
+# Settings
+#-----------------------------------------------------------------------------
+g_version="3.1.0"            # The version of Puppet Enterprise to install
+g_install_root="/opt/puppet" # The directory PE will install itself in
+g_etc_root='/etc/puppetlabs' # The directory containing PE configuration files
+g_payload_extract_dir="${g_install_root}/payload/${g_version}" # Extract-to dir
+g_payload_utils="${g_payload_extract_dir}/utilities"           # Util script
+g_tty=$(tty)
+g_default_modulepath="
+  ${g_etc_root}/puppet/modules
+  ${g_install_root}/share/puppet/modules
+" | tr '\n' : | sed -e 's/^:*//' -e 's/:*$//' -e 's/ //g'
+
+
+#=== FUNCTION ================================================================
+#        NAME:  print_usage
+# DESCRIPTION:  Print usage instructions.
+#=============================================================================
+print_usage ()
+{
+	cat <<-EOF
+
+	usage: $(basename $0) -p g_payload -a g_answers
+	Install Puppet Enterprise
+
+	OPTIONS:
+	  -p g_payload Path to the PE installer tarball
+	  -a g_answers Path to answers file for the installer
+	  -v         Verbose mode
+	  -d         Debug mode
+	  -h         Display this message
+
+	The answers file should be a hiera yaml data file. It will supply parameters
+	for classes to be applied, and the special key "installer::classes", which
+	will list what roles/classes to include on the bootstrap run.
+
+	EOF
+}
+
+
+#=== FUNCTION ================================================================
+#        NAME:  main
+# DESCRIPTION:  Controls program flow.
+#=============================================================================
+main ()
+{
+	#-------------------------------------------------------------------------
+	# Parse the input for flags
+	#-------------------------------------------------------------------------
+	while getopts ":a:p:vdfh" ARG
+	do
+		case $ARG in
+			a)  # Configuration Answers
+				g_answers="$OPTARG"
+				;;
+			p)  # Payload
+				g_payload="$OPTARG"
+				;;
+			h)  # Print the usage help message and exit
+				print_usage
+				exit 0
+				;;
+			v)  # Print verbose messages
+				g_verbose=1
+				;;
+			d)  # Debug stuff
+				set -x
+				;;
+			f)  # Force-push install. Ignore failed commands
+				g_force=1
+				;;
+			?)  # Unknown argument. Print the usage help message and exit
+				print_usage
+				exit 1
+				;;
+		esac
+	done
+	shift $(expr $OPTIND - 1) # Shift remaining non-flag arguments
+
+	#-------------------------------------------------------------------------
+	# Input validation
+	#-------------------------------------------------------------------------
+	[ -z "$g_payload" ] && { print_usage; exit 1; }
+	[ -z "$g_answers" ] && { print_usage; exit 1; }
+
+
+	#-------------------------------------------------------------------------
+	# High-level installer logic
+	#-------------------------------------------------------------------------
+	extract_payload
+	source_payload_functions
+	install_puppet_agent
+	parse_answers_file
+	install_puppet_modules
+	apply_puppet_configuration
+	cleanup
+}
+
+
+#=== FUNCTION ================================================================
+#        NAME:  extract_payload
+# DESCRIPTION:  Extract and prepare Puppet Enterprise source rpms, debs, etc.
+#      PARAMS:
+#               1. g_payload - The path to the PE payload .tar.gz file
+#
+#=============================================================================
+extract_payload ()
+{
+	vrun mkdir -p "$g_payload_extract_dir"
+	vrun tar -xzf "$g_payload" -C "$g_payload_extract_dir" --strip 1
+}
+
+
+#=== FUNCTION ================================================================
+#        NAME:  source_payload_functions
+# DESCRIPTION:  Some functionality is borrowed from the existing Puppet
+#               Enterprise installer via its utilities script. This function
+#               performs that sourcing.
+#=============================================================================
+source_payload_functions ()
+{
+	verbose "Sourcing payload functions from ${g_payload_utils}"
+	. "$g_payload_utils"
+	INSTALLER_DIR="$g_payload_extract_dir" # This is used by prepare_platform
+	verbose "Running puppet-enterprise-installer prepare_platform function"
+	prepare_platform
+}
+
+
+#=== FUNCTION ================================================================
+#        NAME:  install_puppet_agent
+# DESCRIPTION:  Set up the core Puppet application.
+#=============================================================================
+install_puppet_agent ()
+{
+	# Using PE Installer package installation function(s)
+	verbose "Queueing packages (puppet-enterprise-installer enqueue_package)"
+	enqueue_package 'pe-puppet-enterprise-release'
+	enqueue_package 'pe-libyaml'
+	enqueue_package 'pe-ruby'
+	enqueue_package 'pe-ruby-shadow'
+	enqueue_package 'pe-ruby-stomp'
+	enqueue_package 'pe-mcollective-common'
+	enqueue_package 'pe-mcollective'
+	enqueue_package 'pe-facter'
+	enqueue_package 'pe-puppet'
+	enqueue_package 'pe-augeas'
+	enqueue_package 'pe-ruby-augeas'
+	enqueue_package 'pe-ruby-ldap'
+	enqueue_package 'pe-hiera'
+	enqueue_package 'pe-ruby-rgen'
+	enqueue_package 'pe-rubygem-net-ssh'
+	enqueue_package 'pe-rubygem-deep-merge'
+	verbose "Running puppet-enterprise-installer install_queued_packages function"
+	install_queued_packages
+}
+
+
+#=== FUNCTION ================================================================
+#        NAME:  parse_answers_file
+# DESCRIPTION:  Now that Puppet is installed, parse the supplied answers file
+#=============================================================================
+parse_answers_file ()
+{
+  g_hiera_conf=$(mktemp "/tmp/puppet-hieraconf-XXXXXXXX")
+  g_hiera_dir=$(mktemp -d "/tmp/puppet-hieradata-XXXXXXXX")
+  g_facts=$(mktemp "/tmp/puppet-facts-XXXXXXXX")
+
+	# Construct a hiera.yaml file to use for the bootstrap run
+	cat <<-EOT > "${g_hiera_conf}"
+		--- 
+		:backends:
+		  - yaml
+		:hierarchy:
+		  - answers
+		:yaml:
+		  :datadir: ${g_hiera_dir}
+	EOT
+
+	# Copy the answers file to the appropriate location
+	vrun cp "${g_answers}" "${g_hiera_dir}/answers.yaml"
+
+	# Create a scope for Hiera to use outside of Puppet
+	vrun "${g_install_root}/bin/facter" -y > "${g_facts}"
+
+	# Determine the information needed apriori from Hiera
+	hiera="vrun ${g_install_root}/bin/hiera -c ${g_hiera_conf} -y ${g_facts}"
+  g_hiera_certname=$(${hiera} bootstrap::certname)
+  g_hiera_puppetca=$(${hiera} pe_role::puppetca)
+  g_hiera_reports=$(${hiera} pe_role::puppetconsole)
+  g_hiera_modulepath=$(${hiera} pe_role::puppetmaster::modulepath)
+}
+
+
+#=== FUNCTION ================================================================
+#        NAME:  install_puppet_modules
+# DESCRIPTION:  Set up the modules necessary for configuring PE.
+#=============================================================================
+install_puppet_modules ()
+{
+	#-------------------------------------------------------------------------
+	# Install all PE-provided modules
+	#-------------------------------------------------------------------------
+	module_install_dir="${g_install_root}/share/puppet/modules"
+  module_src_list=$(cat ${g_payload_extract_dir}/modules/install_modules.txt)
+	vrun mkdir -p "${module_install_dir}"
+
+	for source in $module_src_list; do
+    module_name=$(echo "${source}" | sed 's/[^-]*-\([^-]*\).*/\1/')
+		module_src="${g_payload_extract_dir}/modules/${source}"
+		vrun mkdir "-p" "${module_install_dir}/${module_name}"
+		vrun tar -xzf "${module_src}"-*.tar.gz \
+			-C "${module_install_dir}/${module_name}" \
+			--strip 1
+	done
+
+	#-------------------------------------------------------------------------
+	# Install supplamental modules. These modules are required by the
+	# alternate installer, and may or may not already be present in the
+	# modulepath. If they are not present the installer will call `puppet
+	# module install` to retrieve them.
+	#-------------------------------------------------------------------------
+	modulepath=${g_hiera_modulepath:-$g_default_modulepath}
+	puppetmod="${g_install_root}/bin/puppet module --modulepath=${modulepath}"
+  modulelist=$(mktemp "/tmp/puppet-modulelist-XXXXXXXX")
+
+	# Generate the list of currently installed modules and save to file
+	${puppetmod} list 2>/dev/null | \
+    sed -n 's/[^ ]* \([a-z0-9-][^ ]*\).*v\([0-9]*\.[0-9]*\.[0-9]\).*/\1 \2/p' \
+	1> "$modulelist"
+
+	for module in \
+		'adrien-filemapper 1.1.2' \
+		'fiddyspence-sysctl 0.0.5' \
+		'puppetlabs-inifile 1.0.0' \
+		'puppetlabs-java_ks 1.2.0' \
+		'reidmv-puppet_certificate 0.0.2' \
+		'reidmv-puppet_dashboard 0.0.1' \
+		'reidmv-yamlfile 0.1.1' \
+		'reidmv-pe_console 0.0.2' \
+		'reidmv-pe_httpd 0.0.2' \
+		'puppetlabs-pe_postgresql 0.0.6' \
+		'reidmv-pe_puppet 0.0.2' \
+		'puppetlabs-pe_puppetdb 0.0.11' \
+		'reidmv-pe_role 0.0.2' \
+		'puppetlabs-postgresql 3.1.0'
+	do
+		name=$(echo    $module | awk '{ print $1 }')
+		version=$(echo $module | awk '{ print $2 }')
+		if echo $module | grep -q -f "$modulelist"; then
+			verbose "Puppet module $name $version already installed; skipping"
+		else
+			vrun $puppetmod install "$name" --version "$version" --force
+		fi
+	done
+
+	rm "$modulelist"
+}
+
+
+#=== FUNCTION ================================================================
+#        NAME:  apply_puppet_configuration
+# DESCRIPTION:  Apply a Puppet configuration. Once it is installed, Puppet
+#               should be used for all subsequent configuration tasks.
+#=============================================================================
+apply_puppet_configuration ()
+{
+	modulepath=${g_hiera_modulepath:-$g_default_modulepath}
+
+	# Using PE Installer repo configuration function
+	verbose "Running puppet-enterprise-installer create_package_repo function"
+	create_package_repo
+
+	# Set facts. This is necessary because the pe_version file is not packaged.
+	FACTER_pe_version="${g_version}"
+	export FACTER_pe_version
+	FACTER_puppetversion="3.3.1 (Puppet Enterprise ${g_version})"
+	export FACTER_puppetversion
+
+	# Run Puppet. Include the report processor http so that when the PE Console
+	# comes up we can review the results of this puppet run directly.
+	vrun "${g_install_root}/bin/puppet" apply \
+		--hiera_config "${g_hiera_conf}" \
+		--exec "hiera_include('bootstrap::classes')" \
+		--cadir /etc/puppetlabs/puppet/ssl/ca \
+		--ssldir /etc/puppetlabs/puppet/ssl \
+		--user pe-puppet \
+		--group pe-puppet \
+		--modulepath "$modulepath" \
+		--pluginsync \
+		--reports http \
+		--reporturl "https://${g_hiera_reports}:443/reports/upload" \
+		--certname "$g_hiera_certname" \
+		--ca_server "$g_hiera_puppetca"
+	exitcode=$?
+	echo "Puppet run returned $exitcode"
+
+	# Using PE Installer repo unconfiguration function
+}
+
+
+#=== FUNCTION ================================================================
+#        NAME:  cleanup
+# DESCRIPTION:  A function to remove cruft and clean up leftover config
+#=============================================================================
+cleanup ()
+{
+	verbose "Removing temporary files"
+	[ -z "$g_hiera_conf" ]  || rm -f  "$g_hiera_conf"
+	[ -z "$g_hiera_dir"  ]  || rm -rf "$g_hiera_dir"
+	[ -z "$g_facts"      ]  || rm -f  "$g_facts"
+
+	verbose "Running puppet-enterprise-installer remove_package_repo function"
+	remove_package_repo
+}
+
+
+#=== FUNCTION ================================================================
+#        NAME:  vrun
+# DESCRIPTION:  A function so as to provide a shorthand run and log command
+#=============================================================================
+vrun ()
+{
+	verbose "Running command: $@"	
+	"$@"
+	exitcode=$?
+  result=$([ "$exitcode" -eq 0 ] && echo success || echo $exitcode)
+	verbose "Command result:  ${result}"; [ -z "$g_verbose" ] || echo "" > "$g_tty"
+	if [ "$exitcode" -ne 0 -a -z "$g_force" ]; then
+		err "Command \`\`$@'' failed; aborting installation"
+		cleanup
+		exit 1
+	fi
+	return $exitcode
+}
+
+
+#=== FUNCTION ================================================================
+#        NAME:  verbose
+# DESCRIPTION:  A function to print messages if verbose is enabled
+#=============================================================================
+verbose ()
+{
+	[ -z "$g_verbose" ] || echo "$(basename $0): $@" > "$g_tty"
+}
+
+
+#=== FUNCTION ================================================================
+#        NAME:  err
+# DESCRIPTION:  A function so as to provide a shorthand error command
+#=============================================================================
+err ()
+{
+	echo $(basename $0): ERROR: "$@" >&2
+}
+
+
+#-----------------------------------------------------------------------------
+# Set up trap to trigger cleanup actions on interrupt
+#-----------------------------------------------------------------------------
+trap "cleanup" SIGHUP SIGINT SIGTERM
+
+#-----------------------------------------------------------------------------
+# Call main to start things rolling.
+#-----------------------------------------------------------------------------
+main "$@"
+exit 0

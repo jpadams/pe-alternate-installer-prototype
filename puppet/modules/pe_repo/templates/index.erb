@@ -1,0 +1,15 @@
+<html>
+  <head>
+    <title>PE Repo Welcome Page</title>
+  </head>
+  <body>
+    <h1>Welcome to the PE Repo Page</h1><br>
+    To install a PE Agent, add this to your kickstart or similiar auto deploy process:<br>
+    For Enterprise Linux systems (CentOS, RedHat, etc):<br>
+    curl http://<%= @package_mirror %>/el.repo > /etc/yum.repos.d/pe_repo.repo <br>
+    yum install -y pe-puppet pe-facter pe-augeas pe-ruby-augeas pe-ruby-ldap pe-hiera pe-ruby-rgen pe-rubygem-net-ssh pe-rubygem-deep-merge pe-puppet-enterprise-release pe-libyaml pe-ruby pe-ruby-shadow pe-ruby-stomp pe-mcollective-common pe-mcollective<br>
+    curl http://<%= @package_mirror %>/puppet.conf > /etc/puppetlabs/puppet/puppet.conf <br>
+    curl http://<%= @package_mirror %>/pe_version > /opt/puppet/pe_version <br>
+    /opt/puppet/bin/puppet resource service pe-puppet ensure=running enable=true<br>
+  </body>
+</html>

@@ -1,0 +1,31 @@
+# This file managed by Puppet <%= @puppetversion %>
+topicprefix     = /topic/
+main_collective = mcollective
+collectives     = mcollective
+libdir          = /opt/puppet/libexec/mcollective/
+logfile         = <%= @logfile %>
+loglevel        = info
+
+securityprovider = ssl
+plugin.ssl_client_private = <%= @private_key_path %>
+plugin.ssl_client_public = <%= @public_key_path %>
+plugin.ssl_server_public = <%= @server_public_key_path %>
+plugin.ssl_serializer     = yaml
+
+connector = activemq
+plugin.activemq.pool.size = <%= @stomp_servers.count %>
+<% @stomp_servers.each_with_index do |server,index| -%>
+plugin.activemq.pool.<%= index + 1 %>.host = <%= server %>
+plugin.activemq.pool.<%= index + 1 %>.port = <%= @stomp_port %>
+plugin.activemq.pool.<%= index + 1 %>.user = <%= @stomp_user %>
+plugin.activemq.pool.<%= index + 1 %>.password = <%= @stomp_password %>
+plugin.activemq.pool.<%= index + 1 %>.ssl = <%= @mcollective_enable_stomp_ssl %>
+plugin.activemq.pool.<%= index + 1 %>.ssl.ca = <%= @cacert_path %>
+plugin.activemq.pool.<%= index + 1 %>.ssl.key = <%= @private_key_path %>
+plugin.activemq.pool.<%= index + 1 %>.ssl.cert = <%= @cert_path %>
+<% end -%>
+
+# Facts
+factsource = yaml
+plugin.yaml = /etc/puppetlabs/mcollective/facts.yaml
+direct_addressing = 1

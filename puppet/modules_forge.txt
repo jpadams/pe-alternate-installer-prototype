@@ -1,0 +1,35 @@
+name    'adrien-filemapper'
+version '1.1.2'
+
+name 'puppetlabs-firewall'
+version '0.4.2'
+
+name 'puppetlabs-inifile'
+version '1.0.0'
+
+name 'puppetlabs-java_ks'
+version '1.2.0'
+
+name    'puppetlabs-pe_accounts'
+version '2.0.1'
+
+name    'puppetlabs-pe_gem'
+version '0.0.1'
+
+name    'reidmv-pe_role'
+version '0.0.2'
+
+name    'reidmv-puppet_certificate'
+version '0.0.2'
+
+name    'reidmv-puppet_dashboard'
+version '0.0.1'
+
+name 'nanliu-staging'
+version '0.3.1'
+
+name    'puppetlabs-stdlib'
+version '4.1.0'
+
+name 'fiddyspence-sysctl'
+version '0.0.5'

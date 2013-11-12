@@ -1,0 +1,18 @@
+#!/bin/bash
+
+# First make sure you have your Puppet Enterprise repository configured and enabled on your system
+/usr/bin/curl http://<%= @package_mirror %>:<%= @repo_port %>/el.repo > /etc/yum.repos.d/pe_repo.repo
+
+# Next we are going to install the packages for the Puppet Enterprise Puppet Agent
+/usr/bin/yum install -y pe-puppet pe-facter pe-augeas pe-ruby-augeas pe-ruby-ldap pe-hiera pe-ruby-rgen pe-rubygem-net-ssh pe-rubygem-deep-merge pe-puppet-enterprise-release pe-libyaml pe-ruby pe-ruby-shadow pe-ruby-stomp pe-mcollective-common pe-mcollective
+
+# Now we need an /etc/puppetlabs/puppet/puppet.conf file for the anget to use, we have generated a generic one
+# for your environment, but you might want to write your own or install it from a different template
+/usr/bin/curl http://<%= @package_mirror %>:<%= @repo_port %>/puppet.conf > /etc/puppetlabs/puppet/puppet.conf
+
+# Now we set pe_version because of ticket #PE-540
+/usr/bin/curl http://<%= @package_mirror %>:<%= @repo_port %>/pe_version > /opt/puppet/pe_version
+
+# Since we now have puppet installed on the system, we can use puppet to start the puppet agent and ensure
+# that the service restarts along with system reboot
+/opt/puppet/bin/puppet resource service pe-puppet ensure=running enable=true

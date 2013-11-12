@@ -1,0 +1,10 @@
+name 'puppetlabs-pe_postgresql'
+version '0.0.6'
+
+author 'Puppet Labs'
+license 'Apache'
+project_page 'https://github.com/puppetlabs/pe-postgresql'
+source ''
+summary ''
+description ''
+dependency 'puppetlabs/postgresql', '3.x'

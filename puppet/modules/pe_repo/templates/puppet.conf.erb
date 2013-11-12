@@ -1,0 +1,22 @@
+[main]
+    waitforcert = 30
+    vardir = /var/opt/lib/pe-puppet
+    logdir = /var/log/pe-puppet
+    rundir = /var/run/pe-puppet
+    modulepath = /etc/puppetlabs/puppet/modules:/opt/puppet/share/puppet/modules
+    server = <%= @puppet_master %>
+    <% if @puppet_ca %>
+    ca_server = <%= @puppet_ca %>
+    <% end %>
+    user  = pe-puppet
+    group = pe-puppet
+    archive_files = true
+    archive_file_server = <%= @puppet_master %>
+
+[agent]
+    report = true
+    classfile = $vardir/classes.txt
+    localconfig = $vardir/localconfig
+    graph = true
+    pluginsync = true
+    environment = production

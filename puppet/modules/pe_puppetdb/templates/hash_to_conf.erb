@@ -1,0 +1,13 @@
+<%# transform database_config_hash into postgresql configuration format -%>
+<%# the settings are sorted in the following cycle so the template produces always the same result for the same hash -%>
+<%- @database_config_hash.keys.sort.each do |k| -%>
+  <%-%><%= "#{k} = "-%>
+  <%- v = @database_config_hash[k] -%>
+  <%- unit = v['unit'].nil? ? '' : v['unit'] -%>
+  <%- if v['value'].nil? -%>
+    <%- result = eval(v['formula']).to_i -%>
+    <%-%><%=(!v['min'].nil? && result < v['min'].to_i ? v['min'].to_i : result).to_s + unit %>
+  <%- else -%>
+    <%-%><%= v['value'].to_s + unit %>
+  <%- end -%>
+<%- end -%>

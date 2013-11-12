@@ -1,0 +1,60 @@
+
+augeasproviders
+origin git@github.com:reidmv/augeasproviders.git
+commit 09bd87f925a5187abfe464e4f3f71751faac519a
+
+auth_conf
+origin git@github.com:reidmv/puppetlabs-auth_conf.git
+commit fb24fd606f81490100e8099a5b72f63f17d3a159
+
+pe_console
+origin git@github.com:reidmv/puppet-module-pe_console.git
+commit a9e518ae53efd0d5dafc0c54d1fc4c4588ab0451
+
+pe_httpd
+origin git@github.com:reidmv/puppet-module-pe_httpd.git
+commit 531fff5d8b6efd619cda58c740c50128e93696c6
+
+pe_mcollective
+origin git@github.com:reidmv/puppetlabs-pe_mcollective.git
+commit 0e830cdfb2187a63c9a79ed972a5865dd8a0b1a1
+
+pe_memcached
+origin git@github.com:reidmv/puppet-module-pe_memcached.git
+commit e46242d7db9b5e848742a238e85f9dace089bd49
+
+pe_postgresql
+origin git@github.com:reidmv/puppetlabs-pe_postgresql.git
+commit b80f0cfd9d12987817aae1c01a3456ff76487f75
+
+pe_puppet
+origin git@github.com:reidmv/puppet-module-pe_puppet.git
+commit 3fb37d0b3ac26ba81a4ba8c19cce860e0db714ad
+
+pe_puppetdb
+origin git@github.com:reidmv/puppetlabs-pe_puppetdb.git
+commit f8c78ca8a7008098b61b5cb7769f7f45376d0abb
+
+pe_repo
+origin https://github.com/mrzarquon/mrzarquon-pe_repo.git
+commit c5b679c7b42f87eb30499889adde4a1fe1ec1617
+
+pe_role
+origin git@github.com:reidmv/puppet-module-pe_role.git
+commit 565c54f9fcdb4ecee113fb1ee7a8cbcfd7fa9b71
+
+postgresql
+origin git@github.com:reidmv/puppetlabs-postgresql.git
+commit 3c4c5c3582bdecdd3fceb6a0a07ad60d6a90257b
+
+puppet_auth
+origin git@github.com:reidmv/puppet-module-puppet_auth.git
+commit ed72d9f474c4c9e026c1610fecbb0cdceff727d3
+
+puppetdb
+origin git@github.com:reidmv/puppetlabs-puppetdb.git
+commit 9d6882b8060d4a1c18802482cc7c9268b65e330e
+
+yamlfile
+origin git@github.com:reidmv/puppet-module-yamlfile.git
+commit 1359288c473c418567367e7bb61eee05c373b163

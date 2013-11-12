@@ -1,0 +1,13 @@
+name 'puppetlabs-pe_mcollective'
+version '0.1.14'
+
+author 'puppetlabs'
+license 'Puppet Enterprise Software License Agreement'
+project_page 'https://github.com/puppetlabs/puppetlabs-pe_mcollective'
+source 'git@github.com:puppetlabs/puppetlabs-pe_mcollective.git'
+summary 'MCollective Puppet Enterprise Management'
+description 'MCollective Puppet Enterprise Management'
+dependency 'puppetlabs/stdlib', '3.2.x'
+dependency 'puppetlabs/pe_accounts', '>=2.0.1'
+dependency 'puppetlabs/pe_common', '>=0.1.0'
+dependency 'puppetlabs/java_ks', '1.1.x'

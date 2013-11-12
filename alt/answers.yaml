@@ -1,0 +1,38 @@
+--- 
+
+# These settings are used by the alternate installer during local bootstrap
+bootstrap::fqdn: &all-in-one "%{hostname}"
+bootstrap::certname: *all-in-one
+bootstrap::classes:
+  - "pe_role::puppetca"
+  - "pe_role::puppetmaster"
+  - "pe_role::puppetconsole"
+  - "pe_role::database::console"
+  - "pe_role::puppetdb"
+  - "pe_role::database::puppetdb"
+  - "pe_role::agent"
+  - "pe_role::mcobroker"
+  - "pe_role::mcoserver"
+  - "pe_role::repo"
+
+pe_role::puppetca:               *all-in-one
+pe_role::puppetmaster:           *all-in-one
+pe_role::puppetconsole:          *all-in-one
+pe_role::puppetconsole_db:       *all-in-one
+pe_role::puppetinventory:        *all-in-one
+pe_role::puppetfilebucket:       *all-in-one
+pe_role::puppetdb:               *all-in-one
+pe_role::puppetdb_db:            *all-in-one
+
+pe_role::console_login_username: admin@example.com
+pe_role::console_login_password: Pupp3t0
+pe_role::consoleauth_username:   console_auth
+pe_role::consoleauth_password:   Pupp3t1
+pe_role::console_username:       console
+pe_role::console_password:       Pupp3t2
+pe_role::puppetdb_username:      puppetdb
+pe_role::puppetdb_password:      Pupp3t3
+
+pe_role::puppetmaster::modulepath: '/vagrant/puppet/modules:/etc/puppetlabs/puppet/modules:/opt/puppet/share/puppet/modules'
+puppetdb::master::config::puppetdb_startup_timeout: 300
+pe_mcollective::params::set_stomp_servers: *all-in-one

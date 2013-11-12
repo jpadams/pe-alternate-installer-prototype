@@ -1,0 +1,10 @@
+name    'reidmv-pe_role'
+version '0.0.2'
+author  'Reid Vandewiele <reid@puppetlabs.com>'
+license 'Apache 2.0'
+
+summary 'Puppet Enterprise role module'
+description 'Module to configure Puppet Enterprise'
+
+source       'https://github.com/reidmv/puppet-module-pe_role'
+project_page 'https://github.com/reidmv/puppet-module-pe_role'

@@ -1,0 +1,5 @@
+@echo off
+SETLOCAL
+
+call "<%= @env_windows_installdir %>\bin\facter.bat" --puppet --yaml > "<%= @mco_etc %>\facts.yaml.new"
+move /Y "<%= @mco_etc.gsub('/', '\\') %>\facts.yaml.new" "<%= @mco_etc.gsub('/', '\\') %>\facts.yaml"

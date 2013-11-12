@@ -1,0 +1,17 @@
+---
+vms:
+  - name: "centos64a"
+    box: "centos-64-x64-vbox4210-nocm"
+    roles: [ "basic_large" ]
+
+  - name: "centos64b"
+    box: "centos-64-x64-vbox4210-nocm"
+    roles: [ "basic_large" ]
+
+  - name: "centos64c"
+    box: "centos-64-x64-vbox4210-nocm"
+    roles: [ "basic_large" ]
+
+  - name: "centos64d"
+    box:  "centos-64-x64-vbox4210-nocm"
+    roles: [ "basic_large" ]

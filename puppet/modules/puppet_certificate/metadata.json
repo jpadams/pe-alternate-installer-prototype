@@ -1,0 +1,60 @@
+{
+  "dependencies": [
+
+  ],
+  "license": "Apache 2.0",
+  "project_page": "https://github.com/reidmv/puppet-module-puppet_certificate",
+  "description": "type/provider allowing limited ensuring of puppet certificates as resources",
+  "checksums": {
+    "README.md": "338779fc4b420dc4500ad67c682761a2",
+    "lib/puppet/provider/puppet_certificate/ruby.rb": "f3389d29c5595589057f4918197bbae6",
+    "Modulefile": "800d5aa2e647abdbf985e417fdd96f1a",
+    "lib/puppet/type/puppet_certificate.rb": "bd5a6f66239fed2a45cac491a8b309d6",
+    "manifests/defined_type.pp": "83606b2f8f036bc125d550382faa49d5"
+  },
+  "types": [
+    {
+      "properties": [
+        {
+          "doc": "The basic property that the resource should be in.  Valid values are `present`, `absent`.",
+          "name": "ensure"
+        },
+        {
+          "doc": "Alternate DNS names by which the certificate holder may be reached",
+          "name": "dns_alt_names"
+        }
+      ],
+      "doc": "    Ensures that a given Puppet certificate exists or does not exist.\n",
+      "name": "puppet_certificate",
+      "providers": [
+        {
+          "doc": "Manage Puppet certificates using the certificate face",
+          "name": "ruby"
+        }
+      ],
+      "parameters": [
+        {
+          "doc": "The certificate name",
+          "name": "name"
+        },
+        {
+          "doc": "The location of the certificate authority (local or remote)",
+          "name": "ca_location"
+        },
+        {
+          "doc": "The certificate authority to use",
+          "name": "ca_server"
+        },
+        {
+          "doc": "The amount of time to wait for the certificate to be signed",
+          "name": "waitforcert"
+        }
+      ]
+    }
+  ],
+  "source": "https://github.com/reidmv/puppet-module-puppet_certificate",
+  "summary": "Puppet provider ensuring puppet certificates",
+  "author": "Reid Vandewiele <reid@puppetlabs.com>",
+  "name": "reidmv-puppet_certificate",
+  "version": "0.0.2"
+}

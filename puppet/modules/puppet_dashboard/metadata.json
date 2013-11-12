@@ -1,0 +1,22 @@
+{
+  "name": "reidmv-puppet_dashboard",
+  "version": "0.0.1",
+  "source": "https://github.com/reidmv/puppet-module-puppet_dashboard",
+  "author": "Reid Vandewiele <reid@puppetlabs.com>",
+  "license": "Apache 2.0",
+  "summary": "PE Console classes and groups",
+  "description": "Puppet module to specify classes and groups in the PE Console",
+  "project_page": "https://github.com/reidmv/puppet-module-puppet_dashboard",
+  "dependencies": [
+
+  ],
+  "types": [
+
+  ],
+  "checksums": {
+    "Modulefile": "ba364328a26228ee931688e4090cf49d",
+    "manifests/class.pp": "5fbc10cac70ff2af44f0a46bf85c26bb",
+    "manifests/group/class.pp": "ac0bfd5ae8645f61ea8c28bcc9e4030e",
+    "manifests/group.pp": "9e7b3d1648675212dd8b5098e9b8345c"
+  }
+}

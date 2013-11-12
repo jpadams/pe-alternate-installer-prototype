@@ -1,0 +1,35 @@
+#/bin/bash
+#
+
+#set our architecture
+HARDWAREMODEL=`/sbin/uname -p`
+if [ $HARDWAREMODEL=='i386' ]; then
+  ARCH="i386"
+else
+  ARCH="sparc"
+fi
+
+/opt/csw/bin/wget "http://<%= @package_mirror %>:<%= @repo_port %>/puppet-enterprise-<%= scope['::pe_version'] %>-solaris-10-${ARCH}.tar.gz"
+
+/usr/bin/gunzip "puppet-enterprise-<%= scope['::pe_version'] %>-solaris-10-${ARCH}.tar.gz"
+/usr/sbin/tar xf "puppet-enterprise-<%= scope['::pe_version'] %>-solaris-10-${ARCH}.tar"
+
+cat > ./agent.txt <<-ANSWERS_FILE
+q_database_install=n
+q_fail_on_unsuccessful_master_lookup=c
+q_install=y
+q_puppet_cloud_install=n
+q_puppet_enterpriseconsole_install=n
+q_puppet_symlinks_install=y
+q_puppetagent_certname=$(hostname)
+q_puppetagent_install=y
+q_puppetagent_server=<%= @puppet_master %>
+q_puppetca_install=n
+q_puppetdb_install=n
+q_puppetmaster_install=n
+q_run_updtvpkg=n
+q_vendor_packages_install=y
+ANSWERS_FILE
+
+./puppet-enterprise-<%= scope['::pe_version'] %>-solaris-10-${ARCH}/puppet-enterprise-installer -a ./agent.txt -l ./puppet-`date '+%Y-%m-%d-%H:%M:%S'`.log
+

@@ -1,0 +1,99 @@
+--- 
+
+pe_role::puppetca:     &puppetca puppetca.example.com
+pe_role::puppetmaster:           *puppetca
+pe_role::puppetconsole:          *puppetca
+pe_role::puppetconsoledb:        *puppetca
+pe_role::puppetinventory:        *puppetca
+pe_role::puppetfilebucket:       *puppetca
+pe_role::console_login_username: admin@example.com
+pe_role::console_login_password: Pupp3t0
+pe_role::consoleauth_username:   console_auth
+pe_role::consoleauth_password:   Pupp3t1
+pe_role::console_username:       console
+pe_role::console_password:       Pupp3t2
+pe_role::mysql_root_password:    Pupp3t3
+
+# pe_role::puppetagent::master_host: 'puppet'
+# pe_role::puppetagent::master_port: 8140
+# pe_role::puppetagent::ca_host:     'puppetca'
+# pe_role::puppetagent::ca_port:     8140
+# pe_role::puppetagent::certname:    "${::clientcert}"
+# pe_role::puppetagent::config_file: '/etc/puppetlabs/puppet/puppet.conf'
+
+# pe_role::puppetconsole::dashboard_certname:         "pe-internal-dashboard.${::clientcert}"
+# pe_role::puppetconsole::dashboard_db_host:          'puppetconsoledb'
+# pe_role::puppetconsole::dashboard_db_port:          3306
+# pe_role::puppetconsole::dashboard_db_database:      'console'
+# pe_role::puppetconsole::dashboard_db_username:      'console'
+# pe_role::puppetconsole::dashboard_db_password:      undef
+# pe_role::puppetconsole::dashboard_root:             '/opt/puppet/share/puppet-dashboard'
+# pe_role::puppetconsole::consoleauth_db_host:        'puppetconsoledb'
+# pe_role::puppetconsole::consoleauth_db_port:        3306
+# pe_role::puppetconsole::consoleauth_db_database:    'console_auth'
+# pe_role::puppetconsole::consoleauth_db_username:    'console_auth'
+# pe_role::puppetconsole::consoleauth_db_password:    undef
+# pe_role::puppetconsole::consoleauth_login_username: undef
+# pe_role::puppetconsole::consoleauth_login_password: undef
+# pe_role::puppetconsole::inventory_host:             'puppetinventory'
+# pe_role::puppetconsole::inventory_port:             8140
+# pe_role::puppetconsole::filebucket_host:            'puppetfilebucket'
+# pe_role::puppetconsole::filebucket_port:            8140
+# pe_role::puppetconsole::ca_host:                    'puppetca'
+# pe_role::puppetconsole::ca_port:                    8140
+# pe_role::puppetconsole::smtp_host:                  'localhost'
+# pe_role::puppetconsole::smtp_username:              undef
+# pe_role::puppetconsole::smtp_password:              undef
+# pe_role::puppetconsole::consoleauth_console_host:   'localhost'
+# pe_role::puppetconsole::casclient_casport:          undef
+# pe_role::puppetconsole::casclient_cashost:          undef
+# pe_role::puppetconsole::casclient_sessionsecret:    undef
+# pe_role::puppetconsole::casclient_sessionkey:       'puppet_enterprise_console'
+# pe_role::puppetconsole::casserver_db_host:          'puppetconsoledb'
+# pe_role::puppetconsole::casserver_db_password:      undef
+# pe_role::puppetconsole::casserver_db_port:          3306
+# pe_role::puppetconsole::casserver_db_database:      'console_auth'
+# pe_role::puppetconsole::casserver_db_username:      'console_auth'
+
+# pe_role::puppetconsoledb::console_password:          undef
+# pe_role::puppetconsoledb::consoleauth_password:      undef
+# pe_role::puppetconsoledb::inventoryservice_password: undef
+# pe_role::puppetconsoledb::mysql_root_password:       undef
+# pe_role::puppetconsoledb::mysql_config_hash:         {'bind_address' => '0.0.0.0'}
+# pe_role::puppetconsoledb::console_database:          'console'
+# pe_role::puppetconsoledb::console_username:          'console'
+# pe_role::puppetconsoledb::consoleauth_database:      'console_auth'
+# pe_role::puppetconsoledb::consoleauth_username:      'console_auth'
+# pe_role::puppetconsoledb::inventoryservice_database: 'console_inventory_service'
+# pe_role::puppetconsoledb::inventoryservice_username: 'console'
+
+# pe_role::puppetmaster::ca_host:              'puppetca'
+# pe_role::puppetmaster::ca_port:              8140
+# pe_role::puppetmaster::certname:             "pe-internal-puppetmaster.${::clientcert}"
+# pe_role::puppetmaster::dns_alt_names:        "${::clientcert},${::hostname},puppet,puppet.${::domain}"
+# pe_role::puppetmaster::confdir:              '/etc/puppetlabs/puppet'
+# pe_role::puppetmaster::config_file:          '/etc/puppetlabs/puppet/puppet.conf'
+# pe_role::puppetmaster::console_host:         'puppetconsole'
+# pe_role::puppetmaster::console_port:         443
+# pe_role::puppetmaster::inventory_dbname:     'console_inventory_service'
+# pe_role::puppetmaster::inventory_dbpassword: undef
+# pe_role::puppetmaster::inventory_dbhost:     undef
+# pe_role::puppetmaster::inventory_dbuser:     'console'
+# pe_role::puppetmaster::modulepath:           '/etc/puppetlabs/puppet/modules:/opt/puppet/share/puppet/modules'
+# pe_role::puppetmaster::puppetdb_host:        'puppetdb'
+# pe_role::puppetmaster::puppetdb_port:        '8081'
+
+##
+## Many additional tunables are available at the class level. The below
+## example is used to add additional authenticators to the CAS server.
+##
+# pe_console::cas_server::authenticators:
+#   - class: CASServer::Authenticators::SQLEncrypted
+#     database:
+#       adapter: mysql
+#       database: console_auth
+#       username: console_auth
+#       password: console_auth
+#       server: localhost
+#     user_table: users
+#     username_column: username

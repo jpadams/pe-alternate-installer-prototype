@@ -1,0 +1,8 @@
+name    'reidmv-puppet_dashboard'
+version '0.0.1'
+author  'Reid Vandewiele <reid@puppetlabs.com>'
+license 'Apache 2.0'
+summary 'PE Console classes and groups'
+description  'Puppet module to specify classes and groups in the PE Console'
+source       'https://github.com/reidmv/puppet-module-puppet_dashboard'
+project_page 'https://github.com/reidmv/puppet-module-puppet_dashboard'

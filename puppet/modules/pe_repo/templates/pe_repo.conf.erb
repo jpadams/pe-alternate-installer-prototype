@@ -1,0 +1,11 @@
+Listen <%= @repo_port %>
+<VirtualHost *:<%= @repo_port %>>
+  DocumentRoot /opt/puppet/pe_repo/html
+  ErrorLog /var/log/pe-httpd/pe_repo.err.log
+  CustomLog /var/log/pe-httpd/pe_repo.log combined
+  <Directory "/opt/puppet/pe_repo/html">
+    Options Indexes FollowSymLinks MultiViews
+    Order allow,deny
+    allow from all
+  </Directory>
+</VirtualHost>
