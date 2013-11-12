@@ -14,8 +14,8 @@
 
 This repository is a Vagrant configuration and associated Puppet code to spin
 up a self-contained demonstration environment. The demonstration environment
-will include a variety of pre-defined environments for demonstrating Puppet
-Enterprise functionality and use cases.
+contains prototype code for installing and configuring Puppet Enterprise using
+Puppet.
 
 The [Oscar](https://github.com/adrienthebo/oscar) vagrant plugin is used to
 provide YAML based configuration, Puppet Enterprise provisioning, networking,
@@ -40,18 +40,21 @@ are also required.
 
 ### Installation
 
-Using the Vagrant PE Stack is as simple as performing a `git clone` on the repo
+Using the Vagrant Stack is as simple as performing a `git clone` on the repo
 and running `vagrant up`. A full example checkout and initialization is given
 below.
 
-    git clone git@github.com:puppetlabs-seteam/vagrant-pe-stack.git
-    cd vagrant-pe-stack
+    git clone git@github.com:reidmv/pe-alternate-installer-prototype.git
+    cd pe-alternate-installer-prototype
 
 From this point forward everything is a standard Vagrant workflow. Commands
 like `vagrant list` will show you the machines defined and avaialble, and
-machines can be brought up with `vagrant up` as per usual.
+machines can be brought up with `vagrant up` as per usual. In order to get name
+resolution working the first time the machines are brought up, also re-run the
+"hosts" provisioner.
 
-    vagrant up master
+    vagrant up
+    vagrant provision --provision-with hosts
 
 ### Optional: Snapshots
 
